@@ -10,6 +10,9 @@ import Stats from '/three/tools/jsm/libs/stats.module.js';
 import { ARButton } from '/three/tools/jsm/webxr/ARButton.js';
 import { GLTFLoader } from '/three/tools/jsm/loaders/GLTFLoader.js';
 
+const container = document.createElement( 'div' );
+document.body.appendChild( container );
+
 // Create WebGL Renderer
 const renderer = new WebGLRenderer({antialias: true, alpha: true});
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -19,8 +22,8 @@ renderer.xr.enabled = true;
 let stats = new Stats();
 
 // Add domElement to Body
-document.body.appendChild(renderer.domElement);
-document.body.appendChild(stats.dom);
+container.appendChild(renderer.domElement);
+container.appendChild(stats.dom);
 document.body.appendChild(ARButton.createButton(renderer));
 
 // Create Scene
