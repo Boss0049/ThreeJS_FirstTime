@@ -2,7 +2,7 @@
 import 
 {
 	WebGLRenderer, Scene, PerspectiveCamera, Color,
-	BoxGeometry, MeshBasicMaterial, Mesh, TextureLoader,
+	BoxGeometry, MeshBasicMaterial, Mesh, TextureLoader, Group,
 	AmbientLight, AnimationMixer, Clock
 }
 from '/three/build/three.module.js';
@@ -37,18 +37,21 @@ const camera = new PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0
 //camera.lookAt(0, 0, 0);
 
 // Create Object
+let allObj = new Group();
+allObj.position.z = -5;
+
 let fbxLoader = new GLTFLoader();
 let textureLoader = new TextureLoader();
 let model, modelMaterial, mixer;
 fbxLoader.load("models/CharacterDemo.glb", (obj) => {
 	model = obj.scene;
 	model.frustumCulled = false;
-	model.position.set(0, -1, -8);
+	model.position.set(0, -1, -3);
 
 	mixer = new AnimationMixer(model);
 	mixer.clipAction(obj.animations[0]).play();
 
-	scene.add(model);
+	allObj.add(model);
 
 	//console.log(model);
 });
@@ -60,18 +63,17 @@ let boxMaterial = new MeshBasicMaterial({
 	map: boxTexture
 });
 let boxMesh = new Mesh(boxGeometry, boxMaterial);
-boxMesh.position.z = -5;
-scene.add(boxMesh);
+allObj.add(boxMesh);
+
+scene.add(allObj);
 
 let speed = 0;
 
 // WebXR Controller
 let controller = renderer.xr.getController(0);
 controller.addEventListener('select', () => {
-	boxMesh.position.set(0, 0, -5).applyMatrix4(controller.matrixWorld);
-	boxMesh.quaternion.setFromRotationMatrix(controller.matrixWorld);
-	model.position.set(0, -1, -8).applyMatrix4(controller.matrixWorld);
-	model.quaternion.setFromRotationMatrix(controller.matrixWorld);
+	allObj.position.set(0, 0, -5).applyMatrix4(controller.matrixWorld);
+	allObj.quaternion.setFromRotationMatrix(controller.matrixWorld);
 });
 scene.add(controller);
 
