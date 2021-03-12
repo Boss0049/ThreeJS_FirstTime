@@ -52,7 +52,6 @@ fbxLoader.load("models/CharacterDemo.glb", (obj) => {
 	mixer.clipAction(obj.animations[0]).play();
 
 	allObj.add(model);
-
 	//console.log(model);
 });
 
