@@ -12,6 +12,7 @@ app.get('/', (req, res) => { res.send("ThreeJSDemo"); });
 app.get('/ex1', (req, res) => { res.render('preview', {go_to:"Ex1"}); });
 app.get('/ex2', (req, res) => { res.render('preview', {go_to:"Ex2"}); });
 app.get('/ex3', (req, res) => { res.render('preview', {go_to:"Ex3"}); });
+app.get('/ex4', (req, res) => { res.render('preview', {go_to:"Ex4"}); });
 
 app.get('/ar-model-360', (req, res) => { res.render('preview', {go_to:"AR-Model-360"}); });
 
