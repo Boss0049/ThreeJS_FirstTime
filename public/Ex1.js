@@ -42,7 +42,7 @@ const updateFrame = () =>
 
 	// Action
 	stats.update();
-	
+
 	boxMesh.position.y = Math.cos(speed)*0.5;
 	boxMesh.rotation.x += 0.01;
 	boxMesh.rotation.y += 0.01;

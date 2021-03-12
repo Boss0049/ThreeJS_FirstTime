@@ -1,15 +1,18 @@
-// Example2
+// AR Model 360
 import 
 {
 	WebGLRenderer, Scene, PerspectiveCamera, Color,
-	PlaneGeometry, BoxGeometry, SphereGeometry, MeshBasicMaterial, Mesh
+	BoxGeometry, MeshBasicMaterial, Mesh, TextureLoader
 }
 from '/three/build/three.module.js';
 import Stats from '/three/tools/jsm/libs/stats.module.js';
+import { ARButton } from '/three/tools/jsm/webxr/ARButton.js';
+//import { FBXLoader } from '/three/tools/jsm/loaders/FBXLoader.js';
 
 // Create WebGL Renderer
 const renderer = new WebGLRenderer({antialias: true});
 renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.xr.enabled = true;
 
 // Show Stats
 let stats = new Stats();
@@ -17,6 +20,7 @@ let stats = new Stats();
 // Add domElement to Body
 document.body.appendChild(renderer.domElement);
 document.body.appendChild(stats.dom);
+document.body.appendChild(ARButton.createButton(renderer));
 
 // Create Scene
 const scene = new Scene();
@@ -24,31 +28,34 @@ scene.background = new Color(0x202020);
 
 // Create Camera
 const camera = new PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.01, 100.0);
-camera.position.set(0, 2, 5);
-camera.lookAt(0, 0.5, 0);
+//camera.position.set(0, 1, 3);
+//camera.lookAt(0, 0, 0);
 
 // Create Object
-let planeGeometry = new PlaneGeometry(5, 5);
-let planeMaterial = new MeshBasicMaterial({color: 0x55ff55});
-let planeMesh = new Mesh(planeGeometry, planeMaterial);
-planeMesh.rotation.x = -Math.PI/2;
-scene.add(planeMesh);
-
-let planeV = 0;
+/*let fbxLoader = new FBXLoader();
+fbxLoader.load("models/bear/BEAR.fbx", (obj) => {
+	scene.add(fbx);
+});*/
 
 let boxGeometry = new BoxGeometry(1, 1, 1);
-let boxMaterial = new MeshBasicMaterial({color: 0xff0000});
+let boxTexture = new TextureLoader().load("textures/basicBox.jpg");
+let boxMaterial = new MeshBasicMaterial({
+	color: 0xffffff,
+	map: boxTexture
+});
 let boxMesh = new Mesh(boxGeometry, boxMaterial);
+boxMesh.position.z = -5;
 scene.add(boxMesh);
 
-let boxV = 0;
+let speed = 0;
 
-let sphereGeometry = new SphereGeometry(0.5, 32, 32);
-let sphereMaterial = new MeshBasicMaterial({color: 0x0000ff});
-let sphereMesh = new Mesh(sphereGeometry, sphereMaterial);
-scene.add(sphereMesh);
-
-let sphereV = 0;
+// WebXR Controller
+let controller = renderer.xr.getController(0);
+controller.addEventListener('select', () => {
+	boxMesh.position.set(0, 0, -5).applyMatrix4(controller.matrixWorld);
+	boxMesh.quaternion.setFromRotationMatrix(controller.matrixWorld);
+});
+scene.add(controller);
 
 // This function will update every frame
 const updateFrame = () =>
@@ -58,22 +65,11 @@ const updateFrame = () =>
 	// Action
 	stats.update();
 
-	let planeScale = Math.cos(planeV)*0.1+1;
-	planeMesh.scale.set(planeScale, planeScale, planeScale);
-	planeV += 0.025;
-
-	boxMesh.position.y = Math.cos(boxV)*0.5+1.5;
+	boxMesh.position.y = Math.cos(speed)*0.5;
 	boxMesh.rotation.x += 0.01;
 	boxMesh.rotation.y += 0.01;
 	boxMesh.rotation.z += 0.01;
-	boxV += 0.05;
-
-	sphereMesh.position.set(
-			Math.cos(sphereV)*1.5,
-			0.5,
-			Math.sin(sphereV)*1.5
-	);
-	sphereV += 0.05;
+	speed += 0.05;
 
 	// Render
 	renderer.render(scene, camera);
