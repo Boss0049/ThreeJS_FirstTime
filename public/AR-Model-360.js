@@ -11,7 +11,7 @@ import { ARButton } from '/three/tools/jsm/webxr/ARButton.js';
 import { GLTFLoader } from '/three/tools/jsm/loaders/GLTFLoader.js';
 
 // Create WebGL Renderer
-const renderer = new WebGLRenderer({antialias: true});
+const renderer = new WebGLRenderer({antialias: true, alpha: true});
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.xr.enabled = true;
 
@@ -69,13 +69,11 @@ scene.add(allObj);
 let speed = 0;
 
 // WebXR Controller
-function onSelect()
-{
+let controller = renderer.xr.getController(0);
+controller.addEventListener('select', () => {
 	allObj.position.set(0, 0, -5).applyMatrix4(controller.matrixWorld);
 	allObj.quaternion.setFromRotationMatrix(controller.matrixWorld);
-}
-let controller = renderer.xr.getController(0);
-controller.addEventListener('select', onSelect);
+});
 scene.add(controller);
 
 let clock = new Clock();
