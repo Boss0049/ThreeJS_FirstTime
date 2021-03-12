@@ -69,11 +69,13 @@ scene.add(allObj);
 let speed = 0;
 
 // WebXR Controller
-let controller = renderer.xr.getController(0);
-controller.addEventListener('select', () => {
+function onSelect()
+{
 	allObj.position.set(0, 0, -5).applyMatrix4(controller.matrixWorld);
 	allObj.quaternion.setFromRotationMatrix(controller.matrixWorld);
-});
+}
+let controller = renderer.xr.getController(0);
+controller.addEventListener('select', onSelect);
 scene.add(controller);
 
 let clock = new Clock();
