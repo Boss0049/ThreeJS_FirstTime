@@ -16,7 +16,7 @@ renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = PCFSoftShadowMap;
 
 // Show Stats
-let stats = new Stats();
+const stats = new Stats();
 
 // Add domElement to Body
 document.body.appendChild(renderer.domElement);
@@ -61,17 +61,17 @@ pL2.position.set(-3, 2, 1);
 scene.add(pL2);
 
 // Create Object
-let floorGeometry = new PlaneGeometry(10, 10);
-let floorMaterial = new MeshStandardMaterial({color: 0xffffff});
-let floor = new Mesh(floorGeometry, floorMaterial);
+const floorGeometry = new PlaneGeometry(10, 10);
+const floorMaterial = new MeshStandardMaterial({color: 0xffffff});
+const floor = new Mesh(floorGeometry, floorMaterial);
 floor.castShadow = false;
 floor.receiveShadow = true;
 floor.rotation.x = -Math.PI/2;
 scene.add(floor);
 
-let boxGeometry = new BoxGeometry(1, 1, 1);
-let boxMaterial = new MeshStandardMaterial({color: 0xffff00});
-let boxMesh = new Mesh(boxGeometry, boxMaterial);
+const boxGeometry = new BoxGeometry(1, 1, 1);
+const boxMaterial = new MeshStandardMaterial({color: 0xffff00});
+const boxMesh = new Mesh(boxGeometry, boxMaterial);
 boxMesh.castShadow = true;
 boxMesh.receiveShadow = true;
 scene.add(boxMesh);

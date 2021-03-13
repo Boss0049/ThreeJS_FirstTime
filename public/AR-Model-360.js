@@ -19,7 +19,7 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.xr.enabled = true;
 
 // Show Stats
-let stats = new Stats();
+const stats = new Stats();
 
 // Add domElement to Body
 container.appendChild(renderer.domElement);
@@ -31,7 +31,7 @@ const scene = new Scene();
 scene.background = new Color(0x202020);
 
 // Create Ambient Lighting
-let ambientLight = new AmbientLight(0xffffff);
+const ambientLight = new AmbientLight(0xffffff);
 scene.add(ambientLight);
 
 // Create Camera
@@ -40,13 +40,13 @@ const camera = new PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0
 //camera.lookAt(0, 0, 0);
 
 // Create Object
-let allObj = new Group();
+const allObj = new Group();
 allObj.position.z = -5;
 
-let fbxLoader = new GLTFLoader();
-let textureLoader = new TextureLoader();
+const gltfLoader = new GLTFLoader();
+const textureLoader = new TextureLoader();
 let model, modelMaterial, mixer;
-fbxLoader.load("models/CharacterDemo.glb", (obj) => {
+gltfLoader.load("models/CharacterDemo.glb", (obj) => {
 	model = obj.scene;
 	model.frustumCulled = false;
 	model.position.set(0, -1, -3);
@@ -58,13 +58,13 @@ fbxLoader.load("models/CharacterDemo.glb", (obj) => {
 	//console.log(model);
 });
 
-let boxGeometry = new BoxGeometry(1, 1, 1);
-let boxTexture = textureLoader.load("textures/basicBox.jpg");
-let boxMaterial = new MeshBasicMaterial({
+const boxGeometry = new BoxGeometry(1, 1, 1);
+const boxTexture = textureLoader.load("textures/basicBox.jpg");
+const boxMaterial = new MeshBasicMaterial({
 	color: 0xffffff,
 	map: boxTexture
 });
-let boxMesh = new Mesh(boxGeometry, boxMaterial);
+const boxMesh = new Mesh(boxGeometry, boxMaterial);
 allObj.add(boxMesh);
 
 scene.add(allObj);
@@ -72,14 +72,14 @@ scene.add(allObj);
 let speed = 0;
 
 // WebXR Controller
-let controller = renderer.xr.getController(0);
+const controller = renderer.xr.getController(0);
 controller.addEventListener('select', () => {
 	allObj.position.set(0, 0, -5).applyMatrix4(controller.matrixWorld);
 	allObj.quaternion.setFromRotationMatrix(controller.matrixWorld);
 });
 scene.add(controller);
 
-let clock = new Clock();
+const clock = new Clock();
 
 // This function will update every frame
 const updateFrame = () =>

@@ -12,7 +12,7 @@ const renderer = new WebGLRenderer({antialias: true});
 renderer.setSize(window.innerWidth, window.innerHeight);
 
 // Show Stats
-let stats = new Stats();
+const stats = new Stats();
 
 // Add domElement to Body
 document.body.appendChild(renderer.domElement);
@@ -28,13 +28,13 @@ camera.position.set(0, 1, 3);
 camera.lookAt(0, 0, 0);
 
 // Create Object
-let boxGeometry = new BoxGeometry(1, 1, 1);
-let boxTexture = new TextureLoader().load("textures/basicBox.jpg");
-let boxMaterial = new MeshBasicMaterial({
+const boxGeometry = new BoxGeometry(1, 1, 1);
+const boxTexture = new TextureLoader().load("textures/basicBox.jpg");
+const boxMaterial = new MeshBasicMaterial({
 	color: 0xffffff,
 	map: boxTexture
 });
-let boxMesh = new Mesh(boxGeometry, boxMaterial);
+const boxMesh = new Mesh(boxGeometry, boxMaterial);
 scene.add(boxMesh);
 
 let speed = 0;

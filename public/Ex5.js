@@ -15,7 +15,7 @@ const renderer = new WebGLRenderer({antialias: true});
 renderer.setSize(window.innerWidth, window.innerHeight);
 
 // Show Stats
-let stats = new Stats();
+const stats = new Stats();
 
 // Add domElement to Body
 document.body.appendChild(renderer.domElement);
@@ -27,16 +27,16 @@ scene.background = new Color(0x202020);
 
 // Create Camera
 const camera = new PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.01, 100.0);
-camera.position.set(0, 20, 50);
+camera.position.set(10, 30, 40);
 camera.lookAt(0, 0, 0);
 
 // Create Object
 const gltfLoader = new GLTFLoader();
-var model;
+let model;
 gltfLoader.load("models/VikingRoom/scene.gltf", (obj) => {
 	model = obj.scene;
 	scene.add(model);
-	console.log(model);
+	//console.log(model);
 });
 
 // Create Lighting
@@ -63,7 +63,7 @@ box.position.copy(pL3.position);
 scene.add(box);*/
 
 // OrbitControls
-let controls = new OrbitControls(camera, renderer.domElement);
+const controls = new OrbitControls(camera, renderer.domElement);
 controls.update();
 
 // This function will update every frame
