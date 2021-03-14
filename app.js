@@ -18,6 +18,8 @@ app.get('/ex6', (req, res) => { res.render('preview', {go_to:"Ex6"}); });
 
 app.get('/ar-model-360', (req, res) => { res.render('preview', {go_to:"AR-Model-360"}); });
 
+app.get('/test', (req, res) => { res.render('preview', {go_to:"Test"}); });
+
 app.listen(port, () => {
 	console.log("Starting server. PORT:"+port);
 });

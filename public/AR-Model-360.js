@@ -2,7 +2,7 @@
 import 
 {
 	WebGLRenderer, Scene, PerspectiveCamera, Color,
-	BoxGeometry, MeshBasicMaterial, MeshPhongMaterial, Mesh, TextureLoader, Group,
+	BoxGeometry, MeshBasicMaterial, Mesh, TextureLoader, Group,
 	AmbientLight, AnimationMixer, Clock
 }
 from '/three/build/three.module.js';
@@ -73,16 +73,8 @@ let speed = 0;
 
 // WebXR Controller
 
-const geometry = new BoxGeometry(0.5, 0.5, 0.5);
-
 const controller = renderer.xr.getController(0);
 controller.addEventListener('select', () => {
-	const material = new MeshPhongMaterial( { color: 0xffffff * Math.random() } );
-	const mesh = new Mesh( geometry, material );
-	mesh.position.set( 0, 0, - 0.3 ).applyMatrix4( controller.matrixWorld );
-	mesh.quaternion.setFromRotationMatrix( controller.matrixWorld );
-	scene.add( mesh );
-
 	allObj.position.set(0, 0, -5).applyMatrix4(controller.matrixWorld);
 	allObj.quaternion.setFromRotationMatrix(controller.matrixWorld);
 });
