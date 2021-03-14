@@ -1,19 +1,21 @@
 // VR Zombie
 import 
 {
-	WebGLRenderer, Scene, PerspectiveCamera, Color, Vector3, AnimationMixer, Clock,
-	PlaneGeometry, MeshStandardMaterial, Mesh, TextureLoader,
-	DirectionalLight, PointLight,
+	WebGLRenderer, Scene, PerspectiveCamera, Color, Vector3, AnimationMixer, Clock, Object3D,
+	PlaneGeometry, BoxGeometry, MeshStandardMaterial, Mesh, TextureLoader, FogExp2,
+	DirectionalLight, PointLight, RepeatWrapping, PCFSoftShadowMap
 }
 from '/three/build/three.module.js';
 import Stats from '/three/tools/jsm/libs/stats.module.js';
-import { FBXLoader } from '/three/tools/jsm/loaders/FBXLoader.js';
+import { GLTFLoader } from '/three/tools/jsm/loaders/GLTFLoader.js';
 import { VRButton } from '/three/tools/jsm/webxr/VRButton.js';
 
 // Create WebGL Renderer
 const renderer = new WebGLRenderer({antialias: true});
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.xr.enabled = true;
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = PCFSoftShadowMap;
 
 // Show Stats
 let stats = new Stats();
@@ -25,48 +27,73 @@ document.body.appendChild(VRButton.createButton(renderer));
 
 // Create Scene
 const scene = new Scene();
-scene.background = new Color(0x202020);
+//scene.background = new Color(0x000000);
+scene.fog = new FogExp2(0x000000, 0.1);
 
 // Create Camera
+const dolly = new Object3D();
 const camera = new PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.01, 100.0);
-camera.position.set(0, 5, 0);
+dolly.add(camera);
+scene.add(dolly);
+dolly.position.set(0, 0.5, 0);
 
 // Create Object
 const textureLoader = new TextureLoader();
-const fbxLoader = new FBXLoader();
+const gltfLoader = new GLTFLoader();
 let model, mixer;
-fbxLoader.load("models/zombies/zm01.FBX", (obj) => {
-	model = obj;
-
-	let material = new MeshStandardMaterial({
-		color: 0xffffff,
-		map: textureLoader.load("models/zombies/texA.jpg")
-	});
+gltfLoader.load("models/vibrantRex.glb", (obj) => {
+	model = obj.scene;
 
 	model.traverse((c) => {
-		if(c.isMesh)
-		{
-			c.material.dispose();
-			c.material = material;
+		if(c.isMesh){
+			c.castShadow = true;
 		}
 	});
 
-	model.scale.set(0.1, 0.1, 0.1);
+	model.scale.set(0.5, 0.5, 0.5);
 	model.position.set(0, 0, -5);
-	//mixer = new AnimationMixer(model);
-	//mixer.clipAction(obj.animations[0]).play();
+	mixer = new AnimationMixer(model);
+	mixer.clipAction(obj.animations[1]).play();
 	scene.add(model);
 	//console.log(model);
-	console.log(obj.animations);
+	//console.log(obj.animations);
 	//console.log(obj.animations[0].name);
 });
 
-const floor = new Mesh(new PlaneGeometry(100, 100), new MeshStandardMaterial({color: 0xffaaff}));
+function loadTexture(path)
+{
+	return textureLoader.load("textures/floor/diffuse.jpg", (t) => {
+		t.flipY = false;
+		t.needsUpdate = true;
+		t.wrapS = RepeatWrapping;
+		t.wrapT = RepeatWrapping;
+		t.repeat.set(5, 5);
+	}, undefined, (e) => {console.log("[Error!] can't load texture from url.");});
+}
+
+const floor = new Mesh(new PlaneGeometry(50, 50), new MeshStandardMaterial({
+	color: 0xffffff,
+	map: loadTexture("textures/floor/diffuse.jpg"),
+}));
+floor.receiveShadow  = true;
 floor.rotation.x = -Math.PI/2;
 scene.add(floor);
 
+const boxMaterial = new MeshStandardMaterial({
+	color: 0xffffff,
+	map: textureLoader.load("textures/basicBox.jpg")
+});
+const box1 = new Mesh(new BoxGeometry(1, 1, 1), boxMaterial);
+box1.castShadow = true;
+box1.position.set(1, 0.5, 2);
+scene.add(box1);
+const box2 = box1.clone();
+box2.position.set(2, 0.5, -8);
+scene.add(box2);
+
 // Create Lighting
 const dirLight = new DirectionalLight(0xffffff, 1.5);
+dirLight.castShadow = true;
 dirLight.position.set(5, 20, 10);
 scene.add(dirLight);
 
@@ -96,7 +123,7 @@ const clock = new Clock();
 
 renderer.setAnimationLoop(() => {
 	stats.update();
-	camera.position.y += 0.001;
+	if(mixer != undefined) { mixer.update(clock.getDelta()); }
 	renderer.render(scene, camera);
 });
 
