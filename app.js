@@ -17,6 +17,7 @@ app.get('/ex5', (req, res) => { res.render('preview', {go_to:"Ex5"}); });
 app.get('/ex6', (req, res) => { res.render('preview', {go_to:"Ex6"}); });
 
 app.get('/ar-model-360', (req, res) => { res.render('preview', {go_to:"AR-Model-360"}); });
+app.get('/vr-zombie', (req, res) => { res.render('preview', {go_to:"VRZombie"}); });
 
 app.get('/test', (req, res) => { res.render('preview', {go_to:"Test"}); });
 
