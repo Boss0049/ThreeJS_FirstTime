@@ -35,7 +35,7 @@ camera.position.set(0, 5, 0);
 const textureLoader = new TextureLoader();
 const fbxLoader = new FBXLoader();
 let model, mixer;
-fbxLoader.load("models/zombies/zm01.fbx", (obj) => {
+fbxLoader.load("models/zombies/zm01.FBX", (obj) => {
 	model = obj;
 
 	let material = new MeshStandardMaterial({
