@@ -90,12 +90,20 @@ scene.add(box1);
 const box2 = box1.clone();
 box2.position.set(2, 0.5, -8);
 scene.add(box2);
+const box3 = box1.clone();
+box3.position.set(-5, 0.5, 0);
+scene.add(box3);
+const box4 = box1.clone();
+box4.position.set(6, 0.5, -2);
+scene.add(box4);
 
 // Create Lighting
 const dirLight = new DirectionalLight(0xffffff, 1.5);
 dirLight.castShadow = true;
 dirLight.position.set(5, 20, 10);
 
+dirLight.shadow.mapSize.width = 512;
+dirLight.shadow.mapSize.height = 512;
 dirLight.shadow.bias = -0.00001;
 dirLight.shadow.camera.left = -20;
 dirLight.shadow.camera.right = 20;
