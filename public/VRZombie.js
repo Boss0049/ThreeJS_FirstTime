@@ -96,6 +96,7 @@ const clock = new Clock();
 
 renderer.setAnimationLoop(() => {
 	stats.update();
+	camera.position.y += 0.001;
 	renderer.render(scene, camera);
 });
 
