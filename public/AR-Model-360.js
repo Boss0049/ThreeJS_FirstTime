@@ -83,7 +83,7 @@ scene.add(controller);
 const clock = new Clock();
 
 // This function will update every frame
-const updateFrame = () =>
+/*const updateFrame = () =>
 {
 	requestAnimationFrame(updateFrame);
 
@@ -100,7 +100,23 @@ const updateFrame = () =>
 
 	// Render
 	renderer.render(scene, camera);
-}
+}*/
+
+renderer.setAnimationLoop(() => {
+	// Action
+	stats.update();
+
+	boxMesh.position.y = Math.cos(speed)*0.5;
+	boxMesh.rotation.x += 0.01;
+	boxMesh.rotation.y += 0.01;
+	boxMesh.rotation.z += 0.01;
+	speed += 0.05;
+
+	if(mixer != undefined) { mixer.update(clock.getDelta()); }
+
+	// Render
+	renderer.render(scene, camera);
+});
 
 window.addEventListener('resize', () => {
 	renderer.setSize(window.innerWidth, window.innerHeight);
@@ -108,4 +124,4 @@ window.addEventListener('resize', () => {
 	camera.updateProjectionMatrix();
 });
 
-updateFrame();
+//updateFrame();
