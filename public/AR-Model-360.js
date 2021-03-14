@@ -41,13 +41,15 @@ const camera = new PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0
 
 // Create Object
 const allObj = new Group();
-allObj.position.z = -5;
+allObj.position.z = -10;
+allObj.scale.set(0.5, 0.5, 0.5);
 
 const gltfLoader = new GLTFLoader();
 const textureLoader = new TextureLoader();
 let model, model2, mixer;
 gltfLoader.load("models/CharacterDemo.glb", (obj) => {
 	model = obj.scene;
+	model.frustumCulled = false;
 	model.position.set(-3, -0.7, -3);
 
 	mixer = new AnimationMixer(model);
