@@ -95,6 +95,13 @@ scene.add(box2);
 const dirLight = new DirectionalLight(0xffffff, 1.5);
 dirLight.castShadow = true;
 dirLight.position.set(5, 20, 10);
+
+dirLight.shadow.bias = -0.00001;
+dirLight.shadow.camera.left = -20;
+dirLight.shadow.camera.right = 20;
+dirLight.shadow.camera.top = 20;
+dirLight.shadow.camera.bottom = -20;
+
 scene.add(dirLight);
 
 const pL1 = new PointLight(0xff0000, 0.5, 0, 50);
