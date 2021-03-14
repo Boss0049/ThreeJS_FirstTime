@@ -3,7 +3,8 @@ import
 {
 	WebGLRenderer, Scene, PerspectiveCamera, Color,
 	BoxGeometry, MeshBasicMaterial, Mesh, TextureLoader, Group,
-	AmbientLight, AnimationMixer, Clock
+	AnimationMixer, Clock,
+	DirectionalLight, PointLight
 }
 from '/three/build/three.module.js';
 import Stats from '/three/tools/jsm/libs/stats.module.js';
@@ -30,10 +31,6 @@ document.body.appendChild(ARButton.createButton(renderer));
 const scene = new Scene();
 //scene.background = new Color(0x202020);
 
-// Create Ambient Lighting
-const ambientLight = new AmbientLight(0xffffff);
-scene.add(ambientLight);
-
 // Create Camera
 const camera = new PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.01, 100.0);
 //camera.position.set(0, 1, 3);
@@ -43,9 +40,22 @@ const camera = new PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0
 const allObj = new Group();
 allObj.position.z = -5;
 
+// Create Lighting
+const dirLight = new DirectionalLight(0xffffff, 1.5);
+dirLight.position.set(5, 20, 30);
+allObj.add(dirLight);
+
+const pL1 = new PointLight(0xff0000, 0.5, 0, 50);
+pL1.position.set(-10, 5, -5);
+allObj.add(pL1);
+
+const pL2 = new PointLight(0x0000ff, 0.5, 0, 50);
+pL2.position.set(10, 5, 10);
+allObj.add(pL2);
+
 const gltfLoader = new GLTFLoader();
 const textureLoader = new TextureLoader();
-let model, modelMaterial, mixer;
+let model, mixer;
 gltfLoader.load("models/CharacterDemo.glb", (obj) => {
 	model = obj.scene;
 	model.frustumCulled = false;
