@@ -40,7 +40,7 @@ fbxLoader.load("models/zombies/zombieM01.fbx", (obj) => {
 
 	let material = new MeshStandardMaterial({
 		color: 0xffffff,
-		map: textureLoader.load("textures/basicBox.jpg")
+		map: textureLoader.load("models/zombies/texA.jpg")
 	});
 
 	model.traverse((c) => {
