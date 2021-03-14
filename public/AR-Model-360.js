@@ -28,7 +28,7 @@ document.body.appendChild(ARButton.createButton(renderer));
 
 // Create Scene
 const scene = new Scene();
-scene.background = new Color(0x202020);
+//scene.background = new Color(0x202020);
 
 // Create Ambient Lighting
 const ambientLight = new AmbientLight(0xffffff);

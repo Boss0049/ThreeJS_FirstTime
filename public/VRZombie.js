@@ -2,12 +2,12 @@
 import 
 {
 	WebGLRenderer, Scene, PerspectiveCamera, Color, Vector3, AnimationMixer, Clock,
-	PlaneGeometry, MeshStandardMaterial, Mesh,
+	PlaneGeometry, MeshStandardMaterial, Mesh, TextureLoader,
 	DirectionalLight, PointLight,
 }
 from '/three/build/three.module.js';
 import Stats from '/three/tools/jsm/libs/stats.module.js';
-import { GLTFLoader } from '/three/tools/jsm/loaders/GLTFLoader.js';
+import { FBXLoader } from '/three/tools/jsm/loaders/FBXLoader.js';
 import { VRButton } from '/three/tools/jsm/webxr/VRButton.js';
 
 // Create WebGL Renderer
@@ -32,17 +32,34 @@ const camera = new PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0
 camera.position.set(0, 5, 0);
 
 // Create Object
-/*const gltfLoader = new GLTFLoader();
+const textureLoader = new TextureLoader();
+const fbxLoader = new FBXLoader();
 let model, mixer;
-gltfLoader.load("models/vibrantRex.glb", (obj) => {
-	model = obj.scene;
-	mixer = new AnimationMixer(model);
-	mixer.clipAction(obj.animations[0]).play();
+fbxLoader.load("models/zombies/zombieM01.fbx", (obj) => {
+	model = obj;
+
+	let material = new MeshStandardMaterial({
+		color: 0xffffff,
+		map: textureLoader.load("textures/basicBox.jpg")
+	});
+
+	model.traverse((c) => {
+		if(c.isMesh)
+		{
+			c.material.dispose();
+			c.material = material;
+		}
+	});
+
+	model.scale.set(0.1, 0.1, 0.1);
+	model.position.set(0, 0, -5);
+	//mixer = new AnimationMixer(model);
+	//mixer.clipAction(obj.animations[0]).play();
 	scene.add(model);
 	//console.log(model);
 	console.log(obj.animations);
 	//console.log(obj.animations[0].name);
-});*/
+});
 
 const floor = new Mesh(new PlaneGeometry(100, 100), new MeshStandardMaterial({color: 0xffaaff}));
 floor.rotation.x = -Math.PI/2;
