@@ -64,7 +64,7 @@ scene.add(pL2);
 const clock = new Clock();
 
 // This function will update every frame
-const updateFrame = () =>
+/*const updateFrame = () =>
 {
 	requestAnimationFrame(updateFrame);
 
@@ -75,7 +75,12 @@ const updateFrame = () =>
 
 	// Render
 	renderer.render(scene, camera);
-}
+}*/
+
+renderer.setAnimationLoop(() => {
+	stats.update();
+	renderer.render(scene, camera);
+});
 
 window.addEventListener('resize', () => {
 	renderer.setSize(window.innerWidth, window.innerHeight);
@@ -83,4 +88,4 @@ window.addEventListener('resize', () => {
 	camera.updateProjectionMatrix();
 });
 
-updateFrame();
+//updateFrame();
