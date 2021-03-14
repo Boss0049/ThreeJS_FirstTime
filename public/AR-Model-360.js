@@ -41,13 +41,14 @@ const camera = new PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0
 
 // Create Object
 const allObj = new Group();
+allObj.position.y = -3;
 allObj.position.z = -10;
 allObj.scale.set(0.5, 0.5, 0.5);
 
 const gltfLoader = new GLTFLoader();
 const textureLoader = new TextureLoader();
 let model, model2, mixer;
-gltfLoader.load("models/CharacterDemo.glb", (obj) => {
+/*gltfLoader.load("models/CharacterDemo.glb", (obj) => {
 	model = obj.scene;
 	model.frustumCulled = false;
 	model.position.set(-3, -0.7, -3);
@@ -57,11 +58,11 @@ gltfLoader.load("models/CharacterDemo.glb", (obj) => {
 
 	allObj.add(model);
 	//console.log(model);
-});
+});*/
 
 gltfLoader.load("models/VikingRoom/scene.gltf", (obj) => {
 	model2 = obj.scene;
-	model2.position.y = -1;
+	model2.position.y = -2;
 	model2.scale.set(0.5, 0.5, 0.5);
 	allObj.add(model2);
 	//console.log(model);
@@ -84,7 +85,7 @@ let speed = 0;
 
 const controller = renderer.xr.getController(0);
 controller.addEventListener('select', () => {
-	allObj.position.set(0, 0, -5).applyMatrix4(controller.matrixWorld);
+	allObj.position.set(0, -3, -10).applyMatrix4(controller.matrixWorld);
 	allObj.quaternion.setFromRotationMatrix(controller.matrixWorld);
 });
 scene.add(controller);
