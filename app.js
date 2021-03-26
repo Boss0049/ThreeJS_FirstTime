@@ -9,17 +9,26 @@ app.use('/three', express.static('ThreeJS'));
 app.use(express.static('public'));
 
 app.get('/', (req, res) => { res.send("ThreeJSDemo"); });
-app.get('/ex1', (req, res) => { res.render('preview', {go_to:"Ex1"}); });
-app.get('/ex2', (req, res) => { res.render('preview', {go_to:"Ex2"}); });
-app.get('/ex3', (req, res) => { res.render('preview', {go_to:"Ex3"}); });
-app.get('/ex4', (req, res) => { res.render('preview', {go_to:"Ex4"}); });
-app.get('/ex5', (req, res) => { res.render('preview', {go_to:"Ex5"}); });
-app.get('/ex6', (req, res) => { res.render('preview', {go_to:"Ex6"}); });
 
-app.get('/ar-model-360', (req, res) => { res.render('preview', {go_to:"AR-Model-360"}); });
-app.get('/vr-dino', (req, res) => { res.render('preview', {go_to:"VRDino"}); });
+const addPage = (r, t, v = 'preview') => { app.get(r, (req, res) => { res.render(v, {go_to: t}); }); }
 
-app.get('/test', (req, res) => { res.render('preview', {go_to:"Test"}); });
+addPage('/ex1',  'Ex1');
+addPage('/ex2',  'Ex2');
+addPage('/ex3',  'Ex3');
+addPage('/ex4',  'Ex4');
+addPage('/ex5',  'Ex5');
+addPage('/ex6',  'Ex6');
+addPage('/ex7',  'Ex7');
+addPage('/ex8',  'Ex8');
+addPage('/ex9',  'Ex9');
+addPage('/ex10', 'Ex10');
+addPage('/ex11', 'Ex11');
+addPage('/ex12', 'Ex12');
+
+addPage('/ar-model', 'AR-Model');
+addPage('/ar-dino', 'ARDino');
+addPage('/vr-dino', 'VRDino');
+addPage('/test', 'Test');
 
 app.listen(port, () => {
 	console.log("Starting server. PORT:"+port);
