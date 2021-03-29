@@ -30,6 +30,20 @@ addPage('/ar-dino', 'ARDino');
 addPage('/vr-dino', 'VRDino');
 addPage('/test', 'Test');
 
+addPage('/a1', 'a1');
+addPage('/a2', 'a2');
+addPage('/a3', 'a3');
+addPage('/a4', 'a4');
+addPage('/a5', 'a5');
+addPage('/a6', 'a6');
+addPage('/a7', 'a7');
+addPage('/a8', 'a8');
+addPage('/a9', 'a9');
+addPage('/a10', 'a10');
+addPage('/a11', 'a11');
+
 app.listen(port, () => {
 	console.log("Starting server. PORT:"+port);
 });
+
+
